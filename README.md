@@ -1,4 +1,4 @@
-# flamingo
+# Lacquer
 
 A new Flutter project.
 
