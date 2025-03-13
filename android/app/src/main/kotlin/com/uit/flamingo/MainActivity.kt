@@ -1,4 +1,4 @@
-package com.uit.flamingo
+package com.uit.lacquer
 
 import io.flutter.embedding.android.FlutterActivity
 
