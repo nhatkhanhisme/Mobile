@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flamingo/theme.dart';
+import 'package:flamingo/config/theme.dart';
 import '../../../widgets/snackbar.dart';
 
 class SignUp extends StatefulWidget {
