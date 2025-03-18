@@ -1,9 +1,9 @@
-import 'package:flamingo/features/auth/data/auth_api_client.dart';
-import 'package:flamingo/features/auth/data/auth_local_data_source.dart';
-import 'package:flamingo/features/auth/dtos/login_dto.dart';
+import 'package:lacquer/features/auth/data/auth_api_client.dart';
+import 'package:lacquer/features/auth/data/auth_local_data_source.dart';
+import 'package:lacquer/features/auth/dtos/login_dto.dart';
 import 'dart:developer' as developer;
 
-import 'package:flamingo/features/auth/result_type.dart';
+import 'package:lacquer/features/auth/result_type.dart';
 
 class AuthRepository {
   final AuthApiClient authApiClient;

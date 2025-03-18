@@ -1,10 +1,10 @@
-import 'package:flamingo/features/auth/bloc/auth_bloc.dart';
-import 'package:flamingo/features/auth/bloc/auth_event.dart';
-import 'package:flamingo/features/auth/bloc/auth_state.dart';
+import 'package:lacquer/features/auth/bloc/auth_bloc.dart';
+import 'package:lacquer/features/auth/bloc/auth_event.dart';
+import 'package:lacquer/features/auth/bloc/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flamingo/config/theme.dart';
+import 'package:lacquer/config/theme.dart';
 import '../../../widgets/snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 

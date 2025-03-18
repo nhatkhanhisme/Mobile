@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flamingo/features/auth/dtos/login_dto.dart';
-import 'package:flamingo/features/auth/dtos/login_success_dto.dart';
+import 'package:lacquer/features/auth/dtos/login_dto.dart';
+import 'package:lacquer/features/auth/dtos/login_success_dto.dart';
 
 class AuthApiClient {
   AuthApiClient(this.dio);

@@ -1,4 +1,4 @@
-import 'package:flamingo/features/auth/data/constants.dart';
+import 'package:lacquer/features/auth/data/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthLocalDataSource {

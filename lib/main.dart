@@ -1,8 +1,8 @@
-import 'package:flamingo/config/http_client.dart';
-import 'package:flamingo/features/auth/bloc/auth_bloc.dart';
-import 'package:flamingo/features/auth/data/auth_api_client.dart';
-import 'package:flamingo/features/auth/data/auth_local_data_source.dart';
-import 'package:flamingo/features/auth/data/auth_repository.dart';
+import 'package:lacquer/config/http_client.dart';
+import 'package:lacquer/features/auth/bloc/auth_bloc.dart';
+import 'package:lacquer/features/auth/data/auth_api_client.dart';
+import 'package:lacquer/features/auth/data/auth_local_data_source.dart';
+import 'package:lacquer/features/auth/data/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

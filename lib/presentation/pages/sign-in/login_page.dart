@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/signin.dart';
 import 'widgets/signup.dart';
-import 'package:flamingo/config/theme.dart';
+import 'package:lacquer/config/theme.dart';
 import '../../utils/bubble_indicator_painter.dart';
 
 class LoginPage extends StatefulWidget {
