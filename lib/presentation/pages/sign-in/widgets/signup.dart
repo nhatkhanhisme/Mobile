@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flamingo/theme.dart';
+import 'package:lacquer/presentation/utils/validators.dart';
+import 'package:lacquer/services/auth/auth_service.dart';
+import 'package:lacquer/theme.dart';
 import '../../../widgets/snackbar.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+  final VoidCallback onSignUpSuccess;
+  const SignUp({super.key, required this.onSignUpSuccess});
 
   @override
   SignUpState createState() => SignUpState();
 }
 
 class SignUpState extends State<SignUp> {
+  final AuthService _authService = AuthService();
   final FocusNode focusNodePassword = FocusNode();
   final FocusNode focusNodeConfirmPassword = FocusNode();
   final FocusNode focusNodeEmail = FocusNode();
@@ -227,7 +231,7 @@ class SignUpState extends State<SignUp> {
                             ),
                           ),
                           onSubmitted: (_) {
-                            _toggleSignUpButton();
+                            _signUp();
                           },
                           textInputAction: TextInputAction.go,
                         ),
@@ -245,6 +249,7 @@ class SignUpState extends State<SignUp> {
                 child: MaterialButton(
                   highlightColor: Colors.transparent,
                   splashColor: CustomTheme.loginGradientEnd,
+                  onPressed: _signUp,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.0,
@@ -259,7 +264,6 @@ class SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-                  onPressed: () => _toggleSignUpButton(),
                 ),
               ),
             ],
@@ -269,7 +273,53 @@ class SignUpState extends State<SignUp> {
     );
   }
 
-  void _toggleSignUpButton() {
-    CustomSnackBar(context, const Text('SignUp button pressed'));
+  void _signUp() async {
+    final username = signupNameController.text.trim();
+    final email = signupEmailController.text.trim();
+    final password = signupPasswordController.text.trim();
+    final confirmPassword = signupConfirmPasswordController.text.trim();
+
+    if (username.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
+      CustomSnackBar(context, const Text("Please fill in all fields"));
+      return;
+    }
+
+    if (!Validators.isValidEmail(email)) {
+      CustomSnackBar(context, const Text("Invalid email format"));
+      return;
+    }
+
+    if (password != confirmPassword) {
+      CustomSnackBar(context, const Text("Passwords do not match"));
+    }
+
+    if (password.length < 8) {
+      CustomSnackBar(
+        context,
+        const Text("Password must be at least 8 characters"),
+      );
+    }
+
+    try {
+      final response = await _authService.signup(
+        username,
+        email,
+        password,
+        'local',
+      );
+      if (!mounted) return;
+
+      if (response?.statusCode == 200 && response != null) {
+        CustomSnackBar(context, const Text("Sign up successfully"));
+        widget.onSignUpSuccess();
+      } else {
+        CustomSnackBar(context, const Text("Sign up failed"));
+      }
+    } catch (e) {
+      CustomSnackBar(context, Text('Error: ${e.toString()}'));
+    }
   }
 }

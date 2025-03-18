@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flamingo/theme.dart';
+import 'package:lacquer/presentation/pages/home/home_page.dart';
+import 'package:lacquer/services/auth/auth_service.dart';
+import 'package:lacquer/theme.dart';
 import '../../../widgets/snackbar.dart';
 
 class SignIn extends StatefulWidget {
@@ -11,6 +13,7 @@ class SignIn extends StatefulWidget {
 }
 
 class SignInState extends State<SignIn> {
+  final AuthService _authService = AuthService();
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
 
@@ -125,7 +128,7 @@ class SignInState extends State<SignIn> {
                             ),
                           ),
                           onSubmitted: (_) {
-                            _toggleSignInButton();
+                            _signIn();
                           },
                           textInputAction: TextInputAction.go,
                         ),
@@ -143,6 +146,7 @@ class SignInState extends State<SignIn> {
                 child: MaterialButton(
                   highlightColor: Colors.transparent,
                   splashColor: CustomTheme.loginGradientEnd,
+                  onPressed: _signIn,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 10.0,
@@ -157,11 +161,6 @@ class SignInState extends State<SignIn> {
                       ),
                     ),
                   ),
-                  onPressed:
-                      () => CustomSnackBar(
-                        context,
-                        const Text('Login button pressed'),
-                      ),
                 ),
               ),
             ],
@@ -295,13 +294,36 @@ class SignInState extends State<SignIn> {
     CustomSnackBar(context, const Text('Google button pressed'));
   }
 
-  void _toggleSignInButton() {
-    CustomSnackBar(context, const Text('Login button pressed'));
-  }
-
   void _toggleLogin() {
     setState(() {
       _obscureTextPassword = !_obscureTextPassword;
     });
+  }
+
+  void _signIn() async {
+    final email = loginEmailController.text.trim();
+    final password = loginPasswordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      CustomSnackBar(context, const Text("Please fill in both fields"));
+      return;
+    }
+
+    try {
+      final response = await _authService.signin(email, password);
+      if (!mounted) return;
+
+      if (response?.statusCode == 200 && response != null) {
+        CustomSnackBar(context, const Text("Sign in successfully"));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        CustomSnackBar(context, const Text("Email or password is wrong"));
+      }
+    } catch (e) {
+      CustomSnackBar(context, Text('Error: ${e.toString()}'));
+    }
   }
 }

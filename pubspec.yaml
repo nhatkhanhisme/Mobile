@@ -38,6 +38,6 @@ flutter_icons:
 flutter:
     uses-material-design: true
 
-        assets:
+    assets:
         - assets/icons/app_icon.png
         - assets/images/app_mascot.png

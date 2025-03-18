@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/signin.dart';
 import 'widgets/signup.dart';
-import 'package:flamingo/theme.dart';
+import 'package:lacquer/theme.dart';
 import '../../utils/bubble_indicator_painter.dart';
 
 class LoginPage extends StatefulWidget {
@@ -96,7 +96,7 @@ class LoginPageState extends State<LoginPage>
                       ),
                       ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
-                        child: const SignUp(),
+                        child: SignUp(onSignUpSuccess: _onSignInButtonPress),
                       ),
                     ],
                   ),
