@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.uit.flamingo"
+    namespace = "com.uit.lacquer"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
