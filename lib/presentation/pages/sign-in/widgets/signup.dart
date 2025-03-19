@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
+import 'package:lacquer/presentation/utils/validators.dart';
 import '../../../widgets/snackbar.dart';
 
 class SignUp extends StatefulWidget {
@@ -50,7 +51,7 @@ class SignUpState extends State<SignUp> {
             children: <Widget>[
               Card(
                 elevation: 2.0,
-                color: Colors.white,
+                color: CustomTheme.lightbeige,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -270,6 +271,30 @@ class SignUpState extends State<SignUp> {
   }
 
   void _toggleSignUpButton() {
-    CustomSnackBar(context, const Text('SignUp button pressed'));
+    final username = signupNameController.text.trim();
+    final email = signupEmailController.text.trim();
+    final password = signupPasswordController.text.trim();
+    final confirmPassword = signupConfirmPasswordController.text.trim();
+
+    if (username.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
+      CustomSnackBar(context, const Text("Please fill in all fields"));
+      return;
+    }
+    if (!Validators.isValidEmail(email)) {
+      CustomSnackBar(context, const Text("Invalid email format"));
+      return;
+    }
+    if (password != confirmPassword) {
+      CustomSnackBar(context, const Text("Passwords do not match"));
+    }
+    if (password.length < 8) {
+      CustomSnackBar(
+        context,
+        const Text("Password must be at least 8 characters"),
+      );
+    }
   }
 }

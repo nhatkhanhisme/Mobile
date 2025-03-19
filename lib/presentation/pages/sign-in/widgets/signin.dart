@@ -44,7 +44,7 @@ class SignInState extends State<SignIn> {
                 children: <Widget>[
                   Card(
                     elevation: 2.0,
-                    color: Colors.white,
+                    color: CustomTheme.lightbeige,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -192,7 +192,7 @@ class SignInState extends State<SignIn> {
                   child: const Text(
                     'Forgot Your Password?',
                     style: TextStyle(
-                      color: CustomTheme.primaryColor,
+                      color: CustomTheme.lightbeige,
                       fontSize: 17.0,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'WorkSansMedium',
