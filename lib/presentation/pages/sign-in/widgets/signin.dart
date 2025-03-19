@@ -8,7 +8,6 @@ import 'package:lacquer/config/theme.dart';
 import '../../../widgets/snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
@@ -87,7 +86,7 @@ class SignInState extends State<SignIn> {
                                 focusNodePassword.requestFocus();
                               },
                               validator: (value) {
-                                if (value!.isEmpty) { 
+                                if (value!.isEmpty) {
                                   return 'Email cannot be empty';
                                 } else if (!value.contains('@')) {
                                   return 'Invalid email';
@@ -144,12 +143,12 @@ class SignInState extends State<SignIn> {
                                 _toggleSignInButton(context);
                               },
                               textInputAction: TextInputAction.go,
-                              validator: (value){
+                              validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Password cannot be empty';
                                 }
                                 return null;
-                              }
+                              },
                             ),
                           ),
                         ],
@@ -179,7 +178,7 @@ class SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
-                      onPressed:() {
+                      onPressed: () {
                         _toggleSignInButton(context);
                       },
                     ),
@@ -260,9 +259,8 @@ class SignInState extends State<SignIn> {
           final inLoginProgress = Center(
             child: const CircularProgressIndicator(),
           );
-          inLoginFailure(message) => Center(
-            child: Text('Login failed: $message'),
-          );
+          inLoginFailure(message) =>
+              Center(child: Text('Login failed: $message'));
           inLoginSuccess(userId, username) => Center(
             child: Scaffold(
               backgroundColor: Colors.transparent,
@@ -286,15 +284,15 @@ class SignInState extends State<SignIn> {
                   ],
                 ),
               ),
-            )
+            ),
           );
-          return (switch(state){
+          return (switch (state) {
             AuthInitial() => initialLoginWidget,
             AuthLoginInProgress() => inLoginProgress,
             AuthLoginFailure() => inLoginFailure(state.message),
             AuthLoginSuccess() => inLoginSuccess(state.userId, state.username),
           });
-        }
+        },
       ),
     );
   }
@@ -355,12 +353,14 @@ class SignInState extends State<SignIn> {
   }
 
   void _toggleSignInButton(BuildContext context) {
-    CustomSnackBar(context, const Text('Login button pressed'));
+    final email = loginEmailController.text.trim();
+    final password = loginPasswordController.text.trim();
+    if (email.isEmpty || password.isEmpty) {
+      CustomSnackBar(context, const Text("Please fill in both fields"));
+      return;
+    }
     context.read<AuthBloc>().add(
-      AuthEventLogin(
-        email: loginEmailController.text, 
-        password: loginPasswordController.text
-      )
+      AuthEventLogin(email: email, password: password),
     );
   }
 
