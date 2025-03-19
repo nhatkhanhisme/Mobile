@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'presentation/pages/sign-in/login_page.dart';
+import 'presentation/pages/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +16,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   final sf = await SharedPreferences.getInstance();
-  runApp(MyApp(sharedPreferences: sf,));
+  runApp(MyApp(sharedPreferences: sf));
 }
 
 class MyApp extends StatelessWidget {
