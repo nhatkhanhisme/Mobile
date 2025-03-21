@@ -16,3 +16,17 @@ class AuthLoginFailure extends AuthState {
 
   AuthLoginFailure(this.message);
 }
+
+class AuthRegisterInProgress extends AuthState {}
+ 
+ class AuthRegisterSuccess extends AuthState {
+   final String data;
+ 
+   AuthRegisterSuccess(this.data);
+ }
+ 
+ class AuthRegisterFailure  extends AuthState {
+   final String message;
+ 
+   AuthRegisterFailure(this.message);
+ }
