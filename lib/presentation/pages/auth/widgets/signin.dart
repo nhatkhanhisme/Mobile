@@ -295,6 +295,7 @@ class SignInState extends State<SignIn> {
             AuthLoginInProgress() => inLoginProgress,
             AuthLoginFailure() => inLoginFailure(state.message),
             AuthLoginSuccess() => inLoginSuccess(state.userId, state.username),
+            _ => Container(),
           });
         },
       ),

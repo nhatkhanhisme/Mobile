@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await authRepository.login(event.email, event.password);
     return (switch(result)
     {
-      Success() => emit(AuthLoginSuccess(result.username, result.userId)),
+      Success() => emit(AuthLoginSuccess("Success", "Welcome")),
       Failure() => emit(AuthLoginFailure(result.message)),
     });
   }

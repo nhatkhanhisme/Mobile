@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
+import 'package:lacquer/features/auth/bloc/auth_bloc.dart';
+import 'package:lacquer/features/auth/bloc/auth_event.dart';
 import 'package:lacquer/presentation/utils/validators.dart';
 import '../../../widgets/snackbar.dart';
 
@@ -18,12 +21,6 @@ class SignUpState extends State<SignUp> {
   final FocusNode focusNodeName = FocusNode();
 
   bool _obscureTextPassword = true;
-
-  void _toggleObscurePassword() {
-    setState(() {
-      _obscureTextPassword = !_obscureTextPassword;
-    });
-  }
 
   TextEditingController signupEmailController = TextEditingController();
   TextEditingController signupNameController = TextEditingController();
@@ -270,6 +267,12 @@ class SignUpState extends State<SignUp> {
     );
   }
 
+  void _toggleObscurePassword() {
+    setState(() {
+      _obscureTextPassword = !_obscureTextPassword;
+    });
+  }
+
   void _toggleSignUpButton() {
     final username = signupNameController.text.trim();
     final email = signupEmailController.text.trim();
@@ -296,5 +299,8 @@ class SignUpState extends State<SignUp> {
         const Text("Password must be at least 8 characters"),
       );
     }
+    context.read<AuthBloc>().add(
+      AuthEventResister(username: username, email: email, password: password, authProvider: "local"),
+    );
   }
 }

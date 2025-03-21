@@ -14,7 +14,7 @@ class AuthRepository {
     required this.authLocalDataSource,
   });
 
-  Future<Result<void>> login(String email, String password) async {
+  Future<Result<(String, String)>> login(String email, String password) async {
     final String userId;
     final String username;
     try {
@@ -28,6 +28,6 @@ class AuthRepository {
       developer.log(e.toString());
       return Failure(e.toString());
     }
-    return Success(userId, username);
+    return Success({userId, username} as (String, String));
   }
 }

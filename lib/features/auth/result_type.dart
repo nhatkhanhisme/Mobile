@@ -1,10 +1,9 @@
 sealed class Result<T> {}
 
 class Success<T> extends Result<T> {
-  final String userId;
-  final String username;
+  final T data;
 
-  Success(this.userId, this.username);
+  Success(this.data);
 }
 
 class Failure<T> extends Result<T> {
