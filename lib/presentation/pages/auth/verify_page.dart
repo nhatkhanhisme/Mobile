@@ -8,14 +8,35 @@ class VerifyEmailPage extends StatefulWidget {
   VerifyEmailPageState createState() => VerifyEmailPageState();
 }
 
-class VerifyEmailPageState extends State<VerifyEmailPage> {
+class VerifyEmailPageState extends State<VerifyEmailPage>
+    with SingleTickerProviderStateMixin {
   int _seconds = 30;
   bool _canResend = false;
+  double _scale = 1.0;
+  late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     _startCountdown();
+
+    // Khởi tạo AnimationController cho hiệu ứng nút Back
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      lowerBound: 0.9,
+      upperBound: 1.0,
+      vsync: this,
+    )..addListener(() {
+      setState(() {
+        _scale = _controller.value;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _startCountdown() {
@@ -36,73 +57,100 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomTheme.loginGradientStart,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {}, //onPressed của nút Back
-        ),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: <Color>[
-              CustomTheme.loginGradientStart,
-              CustomTheme.loginGradientEnd,
-            ],
-            begin: FractionalOffset(0.0, 0.0),
-            end: FractionalOffset(1.0, 1.0),
-            stops: <double>[0.0, 1.0],
-            tileMode: TileMode.clamp,
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/app_mascot.png', width: 100),
-                SizedBox(height: 20),
-                Text(
-                  'Verify Your Email',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: CustomTheme.lightbeige,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'We\'ve sent a verification link to your email. Click the link to verify.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: CustomTheme.lightbeige),
-                ),
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap:
-                      _canResend
-                          ? () {} //onPressed của Resent Code
-                          : null,
-                  child: Text(
-                    _canResend
-                        ? 'Resend Code'
-                        : 'Resend code in $_seconds seconds',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: _canResend ? Colors.black : Colors.grey,
-                      decoration:
-                          _canResend
-                              ? TextDecoration.underline
-                              : TextDecoration.none,
-                    ),
-                  ),
-                ),
-              ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  CustomTheme.loginGradientStart,
+                  CustomTheme.loginGradientEnd,
+                ],
+                begin: FractionalOffset(0.0, 0.0),
+                end: FractionalOffset(1.0, 1.0),
+                stops: <double>[0.0, 1.0],
+                tileMode: TileMode.clamp,
+              ),
             ),
           ),
-        ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/app_mascot.png', width: 100),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Verify Your Email',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: CustomTheme.lightbeige,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'We\'ve sent a verification link to your email. Click the link to verify.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: CustomTheme.lightbeige,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap:
+                        _canResend
+                            ? () {}
+                            : null, // onPressed của Resent Code đây nha ông
+                    child: Text(
+                      _canResend
+                          ? 'Resend Code'
+                          : 'Resend code in $_seconds seconds',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: _canResend ? Colors.black : Colors.grey,
+                        decoration:
+                            _canResend
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Nút Back với hiệu ứng bấm
+          Positioned(
+            top: 50,
+            left: 20,
+            child: GestureDetector(
+              onTapDown: (_) => _controller.reverse(), // Nhấn xuống: Thu nhỏ
+              onTapUp: (_) {
+                _controller.forward(); // Thả ra: Trở về bình thường
+                //onPressed của nút Back đây nha ông
+              },
+              child: Transform.scale(
+                scale: _scale,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withOpacity(0.2),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
