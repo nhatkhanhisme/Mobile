@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lacquer/config/theme.dart';
 
-class Verify extends StatelessWidget {
-  const Verify({super.key});
+class VerifyEmailPage extends StatefulWidget {
+  const VerifyEmailPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: VerifyEmailScreen(),
-    );
-  }
+  VerifyEmailPageState createState() => VerifyEmailPageState();
 }
 
-class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({super.key});
-
-  @override
-  VerifyEmailScreenState createState() => VerifyEmailScreenState();
-}
-
-class VerifyEmailScreenState extends State<VerifyEmailScreen> {
+class VerifyEmailPageState extends State<VerifyEmailPage> {
   int _seconds = 30;
   bool _canResend = false;
 

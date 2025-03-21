@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+import 'package:lacquer/config/router.dart';
 import 'package:lacquer/features/auth/bloc/auth_bloc.dart';
 import 'package:lacquer/features/auth/bloc/auth_event.dart';
 import 'package:lacquer/features/auth/bloc/auth_state.dart';
@@ -5,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
-import 'package:lacquer/presentation/pages/auth/forgot_password_page.dart';
 import '../../../widgets/snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -190,12 +191,7 @@ class SignInState extends State<SignIn> {
                 padding: const EdgeInsets.only(top: 10.0),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ForgotPasswordPage(),
-                      ),
-                    );
+                    context.go(RouteName.forgotPassword);
                   },
                   child: const Text(
                     'Forgot Your Password?',
