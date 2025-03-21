@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lacquer/config/router.dart';
 import 'package:lacquer/config/theme.dart';
 import 'package:lacquer/features/auth/bloc/auth_bloc.dart';
 import 'package:lacquer/features/auth/bloc/auth_event.dart';
@@ -273,10 +275,16 @@ class SignUpState extends State<SignUp> {
           inRegisterFailure(String message) {
             return Center(child: Text(message));
           }
+
           inRegisterSuccess(String data) {
-            return Center(child: Text(data));
+            {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.go(RouteName.verify);
+              });
+              return SizedBox.shrink();
+            }
           }
-          
+
           return (switch (state) {
             AuthInitial() => initialRegisternWidget,
             AuthRegisterInProgress() => inRegisterProgress,
