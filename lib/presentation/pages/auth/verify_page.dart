@@ -36,6 +36,14 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: CustomTheme.loginGradientStart,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {}, //onPressed của nút Back
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -43,8 +51,10 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
               CustomTheme.loginGradientStart,
               CustomTheme.loginGradientEnd,
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(1.0, 1.0),
+            stops: <double>[0.0, 1.0],
+            tileMode: TileMode.clamp,
           ),
         ),
         child: Center(
@@ -70,13 +80,23 @@ class VerifyEmailPageState extends State<VerifyEmailPage> {
                   style: TextStyle(fontSize: 16, color: CustomTheme.lightbeige),
                 ),
                 SizedBox(height: 20),
-                Text(
-                  _canResend
-                      ? 'Resend Code'
-                      : 'Resend code in $_seconds seconds',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: _canResend ? Colors.black : Colors.grey,
+                GestureDetector(
+                  onTap:
+                      _canResend
+                          ? () {} //onPressed của Resent Code
+                          : null,
+                  child: Text(
+                    _canResend
+                        ? 'Resend Code'
+                        : 'Resend code in $_seconds seconds',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: _canResend ? Colors.black : Colors.grey,
+                      decoration:
+                          _canResend
+                              ? TextDecoration.underline
+                              : TextDecoration.none,
+                    ),
                   ),
                 ),
               ],
