@@ -66,13 +66,13 @@ class ForgotPasswordPage extends StatelessWidget {
                   ),
                   child: SizedBox(
                     width: 330.0,
-                    height: 95.0,
+                    height: 75.0,
                     child: Column(
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(
-                            top: 20.0,
-                            bottom: 20.0,
+                            top: 10.0,
+                            bottom: 10.0,
                             left: 25.0,
                             right: 25.0,
                           ),
@@ -125,13 +125,13 @@ class ForgotPasswordPage extends StatelessWidget {
                     child: const Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10.0,
-                        horizontal: 70.0,
+                        horizontal: 80.0,
                       ),
                       child: Text(
                         'Reset password',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20.0,
+                          fontSize: 17.0,
                           fontFamily: 'WorkSans',
                         ),
                       ),
