@@ -20,10 +20,9 @@ class SignIn extends StatefulWidget {
 class SignInState extends State<SignIn> {
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
-
+  Color _googleButtonColor = Colors.white;
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
-
   bool _obscureTextPassword = true;
 
   @override
@@ -39,266 +38,239 @@ class SignInState extends State<SignIn> {
       padding: const EdgeInsets.only(top: 23.0),
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          final initialLoginWidget = Column(
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  Card(
-                    elevation: 2.0,
-                    color: CustomTheme.lightbeige,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: SizedBox(
-                      width: 330.0,
-                      height: 190.0,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 20.0,
-                              bottom: 20.0,
-                              left: 25.0,
-                              right: 25.0,
-                            ),
-                            child: TextFormField(
-                              focusNode: focusNodeEmail,
-                              controller: loginEmailController,
-                              keyboardType: TextInputType.emailAddress,
-                              style: const TextStyle(
-                                fontFamily: 'WorkSansSemiBold',
-                                fontSize: 16.0,
-                                color: Colors.black,
-                              ),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                icon: Icon(
-                                  FontAwesomeIcons.envelope,
-                                  color: Colors.black,
-                                  size: 22.0,
-                                ),
-                                hintText: 'Email',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'WorkSansSemiBold',
-                                  fontSize: 17.0,
-                                ),
-                              ),
-                              onFieldSubmitted: (_) {
-                                focusNodePassword.requestFocus();
-                              },
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Email cannot be empty';
-                                } else if (!value.contains('@')) {
-                                  return 'Invalid email';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 250.0,
-                            height: 1.0,
-                            color: Colors.grey[400],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 20.0,
-                              bottom: 20.0,
-                              left: 25.0,
-                              right: 25.0,
-                            ),
-                            child: TextFormField(
-                              focusNode: focusNodePassword,
-                              controller: loginPasswordController,
-                              obscureText: _obscureTextPassword,
-                              style: const TextStyle(
-                                fontFamily: 'WorkSansSemiBold',
-                                fontSize: 16.0,
-                                color: Colors.black,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                icon: const Icon(
-                                  FontAwesomeIcons.lock,
-                                  size: 22.0,
-                                  color: Colors.black,
-                                ),
-                                hintText: 'Password',
-                                hintStyle: const TextStyle(
-                                  fontFamily: 'WorkSansSemiBold',
-                                  fontSize: 17.0,
-                                ),
-                                suffixIcon: GestureDetector(
-                                  onTap: _toggleLogin,
-                                  child: Icon(
-                                    _obscureTextPassword
-                                        ? FontAwesomeIcons.eye
-                                        : FontAwesomeIcons.eyeSlash,
-                                    size: 15.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              onFieldSubmitted: (_) {
-                                _toggleSignInButton(context);
-                              },
-                              textInputAction: TextInputAction.go,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Password cannot be empty';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 180.0),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      color: CustomTheme.secondaryColor,
-                    ),
-                    child: MaterialButton(
-                      highlightColor: Colors.transparent,
-                      splashColor: CustomTheme.loginGradientEnd,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 42.0,
-                        ),
-                        child: Text(
-                          'SIGN IN',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25.0,
-                            fontFamily: 'WorkSansBold',
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        _toggleSignInButton(context);
-                      },
-                    ),
-                  ),
-                ],
+          return (switch (state) {
+            AuthInitial() => _buildInitialLoginWidget(),
+            AuthLoginInProgress() => _buildInLoginProgressWidget(),
+            AuthLoginFailure() => _buildLoginFailureWidget(state.message),
+            AuthLoginSuccess() => _buildLoginSuccessWidget(state.userId, state.username),
+            _ => _buildInitialLoginWidget(),
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildInitialLoginWidget() {
+    return Column(
+      children: <Widget>[
+        Stack(
+          alignment: Alignment.topCenter,
+          children: <Widget>[
+            Card(
+              elevation: 2.0,
+              color: CustomTheme.lightbeige,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: TextButton(
-                  onPressed: () {
-                    context.go(RouteName.forgotPassword);
-                  },
-                  child: const Text(
-                    'Forgot Your Password?',
-                    style: TextStyle(
-                      color: CustomTheme.lightbeige,
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'WorkSansMedium',
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[Colors.white10, Colors.white],
-                          begin: FractionalOffset(0.0, 0.0),
-                          end: FractionalOffset(1.0, 1.0),
-                          stops: <double>[0.0, 1.0],
-                          tileMode: TileMode.clamp,
-                        ),
-                      ),
-                      width: 100.0,
-                      height: 1.0,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Text(
-                        'Or',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          fontFamily: 'WorkSansMedium',
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[Colors.white, Colors.white10],
-                          begin: FractionalOffset(0.0, 0.0),
-                          end: FractionalOffset(1.0, 1.0),
-                          stops: <double>[0.0, 1.0],
-                          tileMode: TileMode.clamp,
-                        ),
-                      ),
-                      width: 100.0,
-                      height: 1.0,
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: _buildGoogleButton(),
-                  ),
-                ],
-              ),
-            ],
-          );
-          final inLoginProgress = Center(
-            child: const CircularProgressIndicator(),
-          );
-          inLoginFailure(message) =>
-              Center(child: Text('Login failed: $message'));
-          inLoginSuccess(userId, username) => Center(
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Center(
+              child: SizedBox(
+                width: 330.0,
+                height: 190.0,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Welcome, $username!",
-                      style: GoogleFonts.lora(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20.0,
+                        bottom: 20.0,
+                        left: 25.0,
+                        right: 25.0,
+                      ),
+                      child: TextFormField(
+                        focusNode: focusNodeEmail,
+                        controller: loginEmailController,
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(
+                          fontFamily: 'WorkSansSemiBold',
+                          fontSize: 16.0,
+                          color: Colors.black,
+                        ),
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(
+                            FontAwesomeIcons.envelope,
+                            color: Colors.black,
+                            size: 22.0,
+                          ),
+                          hintText: 'Email',
+                          hintStyle: TextStyle(
+                            fontFamily: 'WorkSansSemiBold',
+                            fontSize: 17.0,
+                          ),
+                        ),
+                        onFieldSubmitted: (_) {
+                          focusNodePassword.requestFocus();
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Email cannot be empty';
+                          } else if (!value.contains('@')) {
+                            return 'Invalid email';
+                          }
+                          return null;
+                        },
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Your UserID: $userId",
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    Container(
+                      width: 250.0,
+                      height: 1.0,
+                      color: Colors.grey[400],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20.0,
+                        bottom: 20.0,
+                        left: 25.0,
+                        right: 25.0,
+                      ),
+                      child: TextFormField(
+                        focusNode: focusNodePassword,
+                        controller: loginPasswordController,
+                        obscureText: _obscureTextPassword,
+                        style: const TextStyle(
+                          fontFamily: 'WorkSansSemiBold',
+                          fontSize: 16.0,
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: const Icon(
+                            FontAwesomeIcons.lock,
+                            size: 22.0,
+                            color: Colors.black,
+                          ),
+                          hintText: 'Password',
+                          hintStyle: const TextStyle(
+                            fontFamily: 'WorkSansSemiBold',
+                            fontSize: 17.0,
+                          ),
+                          suffixIcon: GestureDetector(
+                            onTap: _toggleLogin,
+                            child: Icon(
+                              _obscureTextPassword
+                                  ? FontAwesomeIcons.eye
+                                  : FontAwesomeIcons.eyeSlash,
+                              size: 15.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        onFieldSubmitted: (_) {
+                          _toggleSignInButton(context);
+                        },
+                        textInputAction: TextInputAction.go,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Password cannot be empty';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-          );
-          return (switch (state) {
-            AuthInitial() => initialLoginWidget,
-            AuthLoginInProgress() => inLoginProgress,
-            AuthLoginFailure() => inLoginFailure(state.message),
-            AuthLoginSuccess() => inLoginSuccess(state.userId, state.username),
-            _ => initialLoginWidget,
-          });
-        },
-      ),
+            Container(
+              margin: const EdgeInsets.only(top: 180.0),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                color: CustomTheme.secondaryColor,
+              ),
+              child: MaterialButton(
+                highlightColor: Colors.transparent,
+                splashColor: CustomTheme.loginGradientEnd,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 42.0,
+                  ),
+                  child: Text(
+                    'SIGN IN',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25.0,
+                      fontFamily: 'WorkSansBold',
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  _toggleSignInButton(context);
+                },
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: TextButton(
+            onPressed: () {
+              context.go(RouteName.forgotPassword);
+            },
+            child: const Text(
+              'Forgot Your Password?',
+              style: TextStyle(
+                color: CustomTheme.lightbeige,
+                fontSize: 17.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'WorkSansMedium',
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[Colors.white10, Colors.white],
+                    begin: FractionalOffset(0.0, 0.0),
+                    end: FractionalOffset(1.0, 1.0),
+                    stops: <double>[0.0, 1.0],
+                    tileMode: TileMode.clamp,
+                  ),
+                ),
+                width: 100.0,
+                height: 1.0,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                child: Text(
+                  'Or',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                    fontFamily: 'WorkSansMedium',
+                  ),
+                ),
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[Colors.white, Colors.white10],
+                    begin: FractionalOffset(0.0, 0.0),
+                    end: FractionalOffset(1.0, 1.0),
+                    stops: <double>[0.0, 1.0],
+                    tileMode: TileMode.clamp,
+                  ),
+                ),
+                width: 100.0,
+                height: 1.0,
+              ),
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: _buildGoogleButton(),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -342,7 +314,66 @@ class SignInState extends State<SignIn> {
     );
   }
 
-  Color _googleButtonColor = Colors.white;
+  Widget _buildInLoginProgressWidget() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget _buildLoginFailureWidget(String message){
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              "Login failed: $message",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black, fontSize: 18),
+            ),
+          ),
+          SizedBox(height: 10),
+          FilledButton.icon(
+            onPressed: () => _returntoLogin(context),
+            label: Text("Return to Login"),
+            icon: Icon(Icons.refresh),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(CustomTheme.primaryGradient.colors.first),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoginSuccessWidget(String userId, String username){
+    return Center(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Welcome, $username!",
+                      style: GoogleFonts.lora(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Your UserID: $userId",
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+  }
 
   void _onGoogleButtonTapDown() {
     setState(() {
@@ -373,5 +404,9 @@ class SignInState extends State<SignIn> {
     setState(() {
       _obscureTextPassword = !_obscureTextPassword;
     });
+  }
+
+  void _returntoLogin(BuildContext context) {
+    context.read<AuthBloc>().add(AuthEventStarted());
   }
 }

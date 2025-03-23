@@ -10,28 +10,39 @@ class AuthApiClient {
   final Dio dio;
 
   Future<LoginSuccessDto> login(LoginDto loginDto) async {
-    final response = await dio.post(
-      '/auth/login',
-      data: {
-        'email': loginDto.email,
-        'password': loginDto.password,
-      },
-    );
-
-    return LoginSuccessDto.fromJson(response.data);
+    try {
+      final response = await dio.post(
+        '/auth/login',
+        data: {'email': loginDto.email, 'password': loginDto.password},
+      );
+      return LoginSuccessDto.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response!.data['message']);
+      } else {
+        throw Exception(e.message);
+      }
+    }
   }
 
   Future<RegisterSuccessDto> register(RegisterDto registerDto) async {
-     final response = await dio.post(
-       'auth/register',
-       data: {
-         'username': registerDto.username,
-         'email': registerDto.email,
-         'password': registerDto.password,
-         'authProvider': registerDto.authProvider,
-       },
-     );
- 
-     return RegisterSuccessDto.fromJson(response.data);
-   }
+    try {
+      final response = await dio.post(
+        'auth/register',
+        data: {
+          'username': registerDto.username,
+          'email': registerDto.email,
+          'password': registerDto.password,
+          'authProvider': registerDto.authProvider,
+        },
+      );
+      return RegisterSuccessDto.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response!.data['message']);
+      } else {
+        throw Exception(e.message);
+      }
+    }
+  }
 }

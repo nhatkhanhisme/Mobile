@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lacquer/config/router.dart';
 import 'package:lacquer/config/theme.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -102,8 +104,10 @@ class VerifyEmailPageState extends State<VerifyEmailPage>
                   GestureDetector(
                     onTap:
                         _canResend
-                            ? () {}
-                            : null, // onPressed của Resent Code đây nha ông
+                            ? () {
+                              _onResendCode(context);
+                            }
+                            : null,
                     child: Text(
                       _canResend
                           ? 'Resend Code'
@@ -131,7 +135,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage>
               onTapDown: (_) => _controller.reverse(), // Nhấn xuống: Thu nhỏ
               onTapUp: (_) {
                 _controller.forward(); // Thả ra: Trở về bình thường
-                //onPressed của nút Back đây nha ông
+                _onBackPressed(context);
               },
               child: Transform.scale(
                 scale: _scale,
@@ -153,5 +157,14 @@ class VerifyEmailPageState extends State<VerifyEmailPage>
         ],
       ),
     );
+  }
+
+  void _onResendCode(BuildContext context) {
+    // Gửi lại mã xác thực
+    // Đoạn này sẽ gọi API gửi lại mã xác thực
+  }
+
+  void _onBackPressed(BuildContext context) {
+    context.go(RouteName.login);
   }
 }

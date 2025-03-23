@@ -6,19 +6,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.authRepository) : super(AuthInitial()) {
+    on<AuthEventStarted>(_onStarted);
     on<AuthEventLogin>(_onLogin);
-
     on<AuthEventRegister>(_onRegister);
   }
 
   final AuthRepository authRepository;
+
+  void _onStarted(AuthEventStarted event, Emitter<AuthState> emit) {
+    emit(AuthInitial());
+  }
 
   void _onLogin(AuthEventLogin event, Emitter<AuthState> emit) async {
     emit(AuthLoginInProgress());
     final result = await authRepository.login(event.email, event.password);
     return (switch(result)
     {
-      Success() => emit(AuthLoginSuccess("Success", "Welcome")),
+      Success() => emit(AuthLoginSuccess(result.data.username, result.data.userId)),
       Failure() => emit(AuthLoginFailure(result.message)),
     });
   }
