@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lacquer/presentation/widgets/bottom_nav_bar.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class CameraPage extends StatelessWidget {
+  const CameraPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Screen')),
+      appBar: AppBar(title: const Text('Camera Screen')),
 
       body: Center(
         child: ElevatedButton(
@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
           child: const Text('Press me'),
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 2),
     );
   }
 }
