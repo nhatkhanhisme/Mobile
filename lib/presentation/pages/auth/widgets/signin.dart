@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
 import '../../../widgets/snackbar.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
@@ -16,7 +17,7 @@ class SignIn extends StatefulWidget {
 }
 
 class SignInState extends State<SignIn> {
-//----------------------------- VARIABLES -----------------------------
+  //----------------------------- VARIABLES -----------------------------
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
   Color _googleButtonColor = Colors.white;
@@ -24,7 +25,7 @@ class SignInState extends State<SignIn> {
   final FocusNode focusNodePassword = FocusNode();
   bool _obscureTextPassword = true;
 
-//----------------------------- INIT -----------------------------
+  //----------------------------- INIT -----------------------------
   @override
   void dispose() {
     focusNodeEmail.dispose();
@@ -46,6 +47,7 @@ class SignInState extends State<SignIn> {
     loginWidget = BlocListener<AuthBloc, AuthState>(
       listener: (cotext, state) {
         if (state is AuthLoginSuccess) {
+          context.read<AuthBloc>().add(AuthAuthenticateStarted());
           context.go(RouteName.home);
         }
       },
@@ -58,7 +60,7 @@ class SignInState extends State<SignIn> {
     );
   }
 
-//----------------------------- WIDGETS -----------------------------
+  //----------------------------- WIDGETS -----------------------------
   Widget _buildInitialLoginWidget() {
     return Column(
       children: <Widget>[
@@ -360,7 +362,7 @@ class SignInState extends State<SignIn> {
     return Container();
   }
 
-//----------------------------- FUNCTIONS -----------------------------
+  //----------------------------- FUNCTIONS -----------------------------
   void _onGoogleButtonTapDown() {
     setState(() {
       _googleButtonColor = Colors.grey[300]!;

@@ -1,6 +1,8 @@
 import 'package:lacquer/config/http_client.dart';
 import 'package:lacquer/config/router.dart';
 import 'package:lacquer/features/auth/bloc/auth_bloc.dart';
+import 'package:lacquer/features/auth/bloc/auth_event.dart';
+import 'package:lacquer/features/auth/bloc/auth_state.dart';
 import 'package:lacquer/features/auth/data/auth_api_client.dart';
 import 'package:lacquer/features/auth/data/auth_local_data_source.dart';
 import 'package:lacquer/features/auth/data/auth_repository.dart';
@@ -32,11 +34,36 @@ class MyApp extends StatelessWidget {
           ),
       child: BlocProvider(
         create: (context) => AuthBloc(context.read<AuthRepository>()),
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: router,
-        ),
+        child: AppContent(),
       ),
+    );
+  }
+}
+
+class AppContent extends StatefulWidget {
+  const AppContent({
+    super.key,
+  });
+
+  @override
+  State<AppContent> createState() => _AppContentState();
+}
+
+class _AppContentState extends State<AppContent> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(AuthAuthenticateStarted());
+  }
+  @override
+  Widget build(BuildContext context) {
+    final authState = context.watch<AuthBloc>().state;
+    if (authState is AuthInitial) {
+      return Container();
+    }
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
     );
   }
 }

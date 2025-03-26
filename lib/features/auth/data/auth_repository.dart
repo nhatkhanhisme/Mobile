@@ -1,7 +1,6 @@
 import 'package:lacquer/features/auth/data/auth_api_client.dart';
 import 'package:lacquer/features/auth/data/auth_local_data_source.dart';
 import 'package:lacquer/features/auth/dtos/login_dto.dart';
-import 'package:lacquer/features/auth/dtos/login_success_dto.dart';
 import 'package:lacquer/features/auth/dtos/register_dto.dart';
 
 import 'package:lacquer/features/auth/result_type.dart';
@@ -38,4 +37,17 @@ class AuthRepository {
     }
     return Success(null);
    }
+
+  Future<Result<String>> getToken() async {
+    try{
+      final token = await authLocalDataSource.getToken();
+      if (token != null) {
+        return Success(token);
+      } else {
+        return Failure('Token not found');
+      }
+    } catch (e) {
+      return Failure(e.toString());
+    }
+  } 
 }

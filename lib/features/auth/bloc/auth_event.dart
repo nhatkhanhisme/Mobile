@@ -20,4 +20,6 @@ class AuthEventRegister extends AuthEvent {
      required this.password,
      required this.authProvider
   } );
- }
+}
+
+class AuthAuthenticateStarted extends AuthEvent {}

@@ -19,3 +19,15 @@ class AuthRegisterFailure  extends AuthState {
  
    AuthRegisterFailure(this.message);
  }
+
+ class AuthAuthenticatedSuccess extends AuthState {
+  final String token;
+
+  AuthAuthenticatedSuccess(this.token);
+ }
+
+ class AuthAuthenticatedFailure extends AuthState {
+    final String message;
+  
+    AuthAuthenticatedFailure(this.message);
+ }
