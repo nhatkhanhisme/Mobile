@@ -21,13 +21,14 @@ class RouteName {
 }
 
 final router = GoRouter(
-  redirect: (context, state) {
-    if (RouteName.publicRoutes.contains(state.fullPath)) {
-      return null;
-    }
-    // If the user is not logged in, redirect to the login page
-    return RouteName.login;
-  },
+  // redirect: (context, state) {
+  //   if (RouteName.publicRoutes.contains(state.fullPath)) {
+  //     return null;
+  //   }
+  //   // If the user is not logged in, redirect to the login page
+  //   return RouteName.home;
+  // },
+  initialLocation: RouteName.login,
   routes: [
     GoRoute(path: RouteName.home, builder: (context, state) => HomePage()),
     GoRoute(path: RouteName.login, builder: (context, state) => LoginPage()),

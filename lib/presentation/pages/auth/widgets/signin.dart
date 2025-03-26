@@ -34,19 +34,30 @@ class SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthBloc>().state;
+    var loginWidget = (switch (authState) {
+      AuthInitial() => _buildInitialLoginWidget(),
+      AuthLoginInProgress() => _buildInLoginProgressWidget(),
+      AuthLoginFailure() => _buildLoginFailureWidget(authState.message),
+      AuthLoginSuccess() => _buildLoginSuccessWidget(
+        authState.userId,
+        authState.username,
+      ),
+      _ => _buildInitialLoginWidget(),
+    });
+
+    loginWidget = BlocListener<AuthBloc, AuthState>(
+      listener: (cotext, state) {
+        if (state is AuthLoginSuccess) {
+          context.go(RouteName.home);
+        }
+      },
+      child: loginWidget,
+    );
+
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
-      child: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          return (switch (state) {
-            AuthInitial() => _buildInitialLoginWidget(),
-            AuthLoginInProgress() => _buildInLoginProgressWidget(),
-            AuthLoginFailure() => _buildLoginFailureWidget(state.message),
-            AuthLoginSuccess() => _buildLoginSuccessWidget(state.userId, state.username),
-            _ => _buildInitialLoginWidget(),
-          });
-        },
-      ),
+      child: loginWidget,
     );
   }
 
@@ -315,12 +326,10 @@ class SignInState extends State<SignIn> {
   }
 
   Widget _buildInLoginProgressWidget() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
+    return Center(child: CircularProgressIndicator());
   }
 
-  Widget _buildLoginFailureWidget(String message){
+  Widget _buildLoginFailureWidget(String message) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -339,7 +348,9 @@ class SignInState extends State<SignIn> {
             label: Text("Return to Login"),
             icon: Icon(Icons.refresh),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(CustomTheme.primaryGradient.colors.first),
+              backgroundColor: MaterialStateProperty.all<Color>(
+                CustomTheme.primaryGradient.colors.first,
+              ),
             ),
           ),
         ],
@@ -347,32 +358,32 @@ class SignInState extends State<SignIn> {
     );
   }
 
-  Widget _buildLoginSuccessWidget(String userId, String username){
+  Widget _buildLoginSuccessWidget(String userId, String username) {
     return Center(
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Welcome, $username!",
-                      style: GoogleFonts.lora(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Your UserID: $userId",
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                    ),
-                  ],
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Welcome, $username!",
+                style: GoogleFonts.lora(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
-            ),
-          );
+              SizedBox(height: 10),
+              Text(
+                "Your UserID: $userId",
+                style: TextStyle(fontSize: 18, color: Colors.black),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _onGoogleButtonTapDown() {
