@@ -15,29 +15,27 @@ class AuthRepository {
     required this.authLocalDataSource,
   });
 
-  Future<Result<LoginSuccessDto>> login(String email, String password) async {
+  Future<Result<void>> login(String email, String password) async {
     try {
       final loginSuccessDto = await authApiClient.login(
         LoginDto(email: email, password: password),
       );
       await authLocalDataSource.saveToken(loginSuccessDto.token);
-      return Success(loginSuccessDto);
+      return Success(null);
     } catch (e) {
       return Failure(e.toString());
     }
   }
 
-  Future<Result<String>> register(String username, String email, String password, String authProvider) async {
-    final String message;
+  Future<Result<void>> register(String username, String email, String password, String authProvider) async {
     try {
-     final registerSuccessDto = await authApiClient.register(
+      await authApiClient.register(
        RegisterDto(username: username, email: email, password: password, authProvider: authProvider),
      );
-     message = registerSuccessDto.message;
     }
     catch (e) {
      return Failure(e.toString());
     }
-    return Success(message);
+    return Success(null);
    }
 }

@@ -8,8 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
 import '../../../widgets/snackbar.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
@@ -18,6 +16,7 @@ class SignIn extends StatefulWidget {
 }
 
 class SignInState extends State<SignIn> {
+//----------------------------- VARIABLES -----------------------------
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
   Color _googleButtonColor = Colors.white;
@@ -25,6 +24,7 @@ class SignInState extends State<SignIn> {
   final FocusNode focusNodePassword = FocusNode();
   bool _obscureTextPassword = true;
 
+//----------------------------- INIT -----------------------------
   @override
   void dispose() {
     focusNodeEmail.dispose();
@@ -39,10 +39,7 @@ class SignInState extends State<SignIn> {
       AuthInitial() => _buildInitialLoginWidget(),
       AuthLoginInProgress() => _buildInLoginProgressWidget(),
       AuthLoginFailure() => _buildLoginFailureWidget(authState.message),
-      AuthLoginSuccess() => _buildLoginSuccessWidget(
-        authState.userId,
-        authState.username,
-      ),
+      AuthLoginSuccess() => _buildLoginSuccessWidget(),
       _ => _buildInitialLoginWidget(),
     });
 
@@ -61,6 +58,7 @@ class SignInState extends State<SignIn> {
     );
   }
 
+//----------------------------- WIDGETS -----------------------------
   Widget _buildInitialLoginWidget() {
     return Column(
       children: <Widget>[
@@ -358,34 +356,11 @@ class SignInState extends State<SignIn> {
     );
   }
 
-  Widget _buildLoginSuccessWidget(String userId, String username) {
-    return Center(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                "Welcome, $username!",
-                style: GoogleFonts.lora(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                "Your UserID: $userId",
-                style: TextStyle(fontSize: 18, color: Colors.black),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  Widget _buildLoginSuccessWidget() {
+    return Container();
   }
 
+//----------------------------- FUNCTIONS -----------------------------
   void _onGoogleButtonTapDown() {
     setState(() {
       _googleButtonColor = Colors.grey[300]!;

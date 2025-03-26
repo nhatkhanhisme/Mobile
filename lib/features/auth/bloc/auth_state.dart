@@ -4,13 +4,7 @@ class AuthInitial extends AuthState {}
 
 class AuthLoginInProgress extends AuthState {}
 
-class AuthLoginSuccess extends AuthState {
-  final String username;
-  final String userId;
-
-  AuthLoginSuccess(this.username, this.userId);
-}
-
+class AuthLoginSuccess extends AuthState {}
 class AuthLoginFailure extends AuthState {
   final String message;
 
@@ -19,13 +13,8 @@ class AuthLoginFailure extends AuthState {
 
 class AuthRegisterInProgress extends AuthState {}
  
- class AuthRegisterSuccess extends AuthState {
-   final String data;
- 
-   AuthRegisterSuccess(this.data);
- }
- 
- class AuthRegisterFailure  extends AuthState {
+class AuthRegisterSuccess extends AuthState {}
+class AuthRegisterFailure  extends AuthState {
    final String message;
  
    AuthRegisterFailure(this.message);

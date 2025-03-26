@@ -276,7 +276,7 @@ class SignUpState extends State<SignUp> {
             return Center(child: Text(message));
           }
 
-          inRegisterSuccess(String data) {
+          inRegisterSuccess() {
             {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 context.go(RouteName.verify);
@@ -289,7 +289,7 @@ class SignUpState extends State<SignUp> {
             AuthInitial() => initialRegisternWidget,
             AuthRegisterInProgress() => inRegisterProgress,
             AuthRegisterFailure() => inRegisterFailure(state.message),
-            AuthRegisterSuccess() => inRegisterSuccess(state.data),
+            AuthRegisterSuccess() => inRegisterSuccess(),
             _ => initialRegisternWidget,
           });
         },

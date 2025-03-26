@@ -22,7 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await authRepository.login(event.email, event.password);
     return (switch(result)
     {
-      Success() => emit(AuthLoginSuccess(result.data.username, result.data.userId)),
+      Success() => emit(AuthLoginSuccess()),
       Failure() => emit(AuthLoginFailure(result.message)),
     });
   }
@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
      emit(AuthRegisterInProgress());
      final result = await authRepository.register(event.username, event.email, event.password, event.authProvider);
      return (switch(result) {
-       Success() => emit(AuthRegisterSuccess(result.data)),
+       Success() => emit(AuthRegisterSuccess()),
        Failure() => emit(AuthRegisterFailure(result.message)),
      }) ;
    }
