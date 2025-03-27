@@ -15,4 +15,9 @@ class AuthLocalDataSource {
     // Get token from local storage
     return sf.getString(AuthDataConstants.tokenKey);
   }
+
+  Future<void> deleteToken() async {
+    // Delete token from local storage
+    await sf.remove(AuthDataConstants.tokenKey);
+  }
 }

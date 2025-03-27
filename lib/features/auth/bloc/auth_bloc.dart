@@ -10,38 +10,57 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventLogin>(_onLogin);
     on<AuthEventRegister>(_onRegister);
     on<AuthAuthenticateStarted>(_onAuthenticateStarted);
+    on<AuthEventLogout>(_onLogoutStarted);
   }
 
   final AuthRepository authRepository;
 
   void _onStarted(AuthEventStarted event, Emitter<AuthState> emit) {
-    emit(AuthInitial());
+    emit(AuthAuthenticatedUnknown());
   }
 
   void _onLogin(AuthEventLogin event, Emitter<AuthState> emit) async {
     emit(AuthLoginInProgress());
     final result = await authRepository.login(event.email, event.password);
-    return (switch(result)
-    {
+    return (switch (result) {
       Success() => emit(AuthLoginSuccess()),
       Failure() => emit(AuthLoginFailure(result.message)),
     });
   }
 
   void _onRegister(AuthEventRegister event, Emitter<AuthState> emit) async {
-     emit(AuthRegisterInProgress());
-     final result = await authRepository.register(event.username, event.email, event.password, event.authProvider);
-     return (switch(result) {
-       Success() => emit(AuthRegisterSuccess()),
-       Failure() => emit(AuthRegisterFailure(result.message)),
-     }) ;
-   }
+    emit(AuthRegisterInProgress());
+    final result = await authRepository.register(
+      event.username,
+      event.email,
+      event.password,
+      event.authProvider,
+    );
+    return (switch (result) {
+      Success() => emit(AuthRegisterSuccess()),
+      Failure() => emit(AuthRegisterFailure(result.message)),
+    });
+  }
 
-   void _onAuthenticateStarted(AuthAuthenticateStarted event, Emitter<AuthState> emit) async {
-     final result = await authRepository.getToken();
-     return (switch(result) {
-       Success() => emit(AuthAuthenticatedSuccess(result.data)),
-       Failure() => emit(AuthAuthenticatedFailure(result.message)),
-     });
-   }
+  void _onAuthenticateStarted(
+    AuthAuthenticateStarted event,
+    Emitter<AuthState> emit,
+  ) async {
+    final result = await authRepository.getToken();
+    return (switch (result) {
+      Success(data: final token) when token != null => emit(
+        AuthAuthenticatedSuccess(token),
+      ),
+      Success() => emit(AuthAuthenticatedUnknown()),
+      Failure() => emit(AuthAuthenticatedFailure(result.message)),
+    });
+  }
+
+  void _onLogoutStarted(AuthEventLogout event, Emitter<AuthState> emit) async {
+    final result = await authRepository.logout();
+    return (switch (result) {
+      Success() => emit(AuthLogoutSuccess()),
+      Failure() => emit(AuthLogoutFailure(result.message)),
+    });
+  }
 }

@@ -37,7 +37,7 @@ class SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     final authState = context.watch<AuthBloc>().state;
     var loginWidget = (switch (authState) {
-      AuthInitial() => _buildInitialLoginWidget(),
+      AuthAuthenticatedUnknown() => _buildInitialLoginWidget(),
       AuthLoginInProgress() => _buildInLoginProgressWidget(),
       AuthLoginFailure() => _buildLoginFailureWidget(authState.message),
       AuthLoginSuccess() => _buildLoginSuccessWidget(),
@@ -46,9 +46,15 @@ class SignInState extends State<SignIn> {
 
     loginWidget = BlocListener<AuthBloc, AuthState>(
       listener: (cotext, state) {
-        if (state is AuthLoginSuccess) {
-          context.read<AuthBloc>().add(AuthAuthenticateStarted());
-          context.go(RouteName.home);
+        switch (state) {
+          case AuthLoginSuccess():
+            context.read<AuthBloc>().add(AuthAuthenticateStarted());
+            break;
+          case AuthAuthenticatedSuccess():
+            context.go(RouteName.home);
+            break;
+          default:
+            break;
         }
       },
       child: loginWidget,

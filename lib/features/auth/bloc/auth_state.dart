@@ -31,3 +31,13 @@ class AuthRegisterFailure  extends AuthState {
   
     AuthAuthenticatedFailure(this.message);
  }
+
+ class AuthAuthenticatedUnknown extends AuthState {}
+
+ class AuthLogoutSuccess extends AuthState {}
+
+ class AuthLogoutFailure extends AuthState {
+    final String message;
+  
+    AuthLogoutFailure(this.message);
+ }

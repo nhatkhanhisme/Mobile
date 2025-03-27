@@ -46,7 +46,7 @@ class SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     final authState = context.watch<AuthBloc>().state;
     var registerWidget = (switch (authState) {
-      AuthInitial() => _buildInitialRegisterWidget(),
+      AuthAuthenticatedUnknown() => _buildInitialRegisterWidget(),
       AuthRegisterInProgress() => _buildInRegisterProgressWidget(),
       AuthRegisterFailure() => _buildInRegisterFailureWidget(authState.message),
       AuthRegisterSuccess() => _buildInitialRegisterWidget(),
