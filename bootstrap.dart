@@ -15,6 +15,6 @@ void main() async {
   var envFileExample = File('.env.example');
   if (!await envFile.exists()) {
     await envFileExample.copy('.env');
-    print('a ".env" file created which is based on ".env.example"');
+    print('CREATE A .ENV FILE PLEASE! https://github.com/Lacquer-UIT <- get env here.');
   }
 }
