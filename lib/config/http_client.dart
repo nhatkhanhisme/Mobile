@@ -1,7 +1,4 @@
 import 'package:dio/dio.dart';
+import 'package:lacquer/config/env.dart';
 
-final dio = Dio(
-  BaseOptions(
-    baseUrl: 'http://10.0.2.2:3000/'
-  ),
-);
+final dio = Dio(BaseOptions(baseUrl: Env.serverURL));

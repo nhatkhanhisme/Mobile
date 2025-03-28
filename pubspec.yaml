@@ -28,8 +28,11 @@ dev_dependencies:
     flutter_test:
         sdk: flutter
     hive_generator: ^2.0.1
-    flutter_lints: ^5.0.0
     flutter_launcher_icons: ^0.14.3
+    flutter_lints: ^5.0.0
+    husky: ^0.1.7
+    lint_staged: ^0.5.1
+    commitlint_cli: ^0.8.1
 
 flutter_icons:
     android: true
@@ -70,3 +73,6 @@ flutter:
     #
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/to/font-from-package
+
+lint_staged:
+  'lib/**.dart': dart format write && dart fix --apply
