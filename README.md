@@ -1,16 +1,36 @@
-# Lacquer
+# Lacquer Project
 
-A new Flutter project.
+Welcome to the Lacquer project! Follow these steps to get started.
 
-## Getting Started
+## Setup Instructions
 
-This project is a starting point for a Flutter application.
+1. **Get the `.env` file**  
+   Visit [this link](https://github.com/Lacquer-UIT/.github-private/blob/main/profile/README.md) for instructions on obtaining the `.env` file. Place it in the project root directory.
 
-A few resources to get you started if this is your first Flutter project:
+2. **Install `just` (Command Runner)**  
+   Ensure you have `just` installed. You can install it using any of the following methods:
+   - **Using Cargo (Universal)** (recommended):
+     ```sh
+     cargo install just
+     ```
+   - **Using Homebrew (macOS/Linux):**
+     ```sh
+     brew install just
+     ```
+   - **Using Scoop (Windows):**
+     ```sh
+     scoop install just
+     ```
+   - **Download Prebuilt Binaries:** [Check the official releases](https://github.com/casey/just/releases)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. **Run the Project**  
+   Use the `just` command to run the program:
+   ```sh
+   just
+   ```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4. **Initialize Husky Hook (Run Once)**  
+   Before making commits, initialize the Husky hook:
+   ```sh
+   just init
+   ```
