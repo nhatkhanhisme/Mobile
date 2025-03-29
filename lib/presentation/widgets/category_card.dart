@@ -78,7 +78,7 @@ class CustomCardState extends State<CustomCard> {
                 Row(
                   children: [
                     Image.asset(
-                      'assets/images/icons8-layer-24.png',
+                      'assets/images/cardsIcon.png',
                       width: 24,
                       height: 24,
                     ),

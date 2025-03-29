@@ -81,7 +81,7 @@ class VerifyEmailPageState extends State<VerifyEmailPage>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/app_mascot.png', width: 100),
+                  Image.asset('assets/images/app_mascot.png', width: 100),
                   const SizedBox(height: 20),
                   Text(
                     'Verify Your Email',
