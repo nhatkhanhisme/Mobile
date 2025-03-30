@@ -19,7 +19,7 @@ class AuthRepository {
       final loginSuccessDto = await authApiClient.login(
         LoginDto(email: email, password: password),
       );
-      await authLocalDataSource.saveToken(loginSuccessDto.token);
+      await authLocalDataSource.saveToken(loginSuccessDto.data.token);
       return Success(null);
     } catch (e) {
       return Failure(e.toString());
