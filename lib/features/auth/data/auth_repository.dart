@@ -1,5 +1,6 @@
 import 'package:lacquer/features/auth/data/auth_api_client.dart';
 import 'package:lacquer/features/auth/data/auth_local_data_source.dart';
+import 'package:lacquer/features/auth/dtos/forget_dto.dart';
 import 'package:lacquer/features/auth/dtos/login_dto.dart';
 import 'package:lacquer/features/auth/dtos/register_dto.dart';
 
@@ -54,6 +55,17 @@ class AuthRepository {
   Future<Result<void>> logout() async {
     try {
       await authLocalDataSource.deleteToken();
+      return Success(null);
+    } catch (e) {
+      return Failure(e.toString());
+    }
+  }
+
+  Future<Result<void>> forget(String email) async {
+    try {
+      await authApiClient.forget(
+        ForgetDto(email: email),
+      );
       return Success(null);
     } catch (e) {
       return Failure(e.toString());
