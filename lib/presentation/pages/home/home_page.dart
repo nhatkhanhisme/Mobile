@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
-import 'package:lacquer/features/auth/data/home_item_list.dart';
+import 'package:lacquer/presentation/utils/home_item_list.dart';
 import 'package:lacquer/presentation/widgets/bottom_nav_bar.dart';
 import 'package:lacquer/presentation/widgets/home_item.dart';
 

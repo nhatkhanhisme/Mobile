@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lacquer/presentation/widgets/category_card.dart';
-import 'package:lacquer/features/auth/data/card_list.dart';
+import 'package:lacquer/presentation/utils/card_list.dart';
 
 class HorizontalList extends StatelessWidget {
   final List<CustomCardModel> cards;
