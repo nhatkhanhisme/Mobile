@@ -1,7 +1,7 @@
 import 'package:lacquer/features/auth/bloc/auth_event.dart';
 import 'package:lacquer/features/auth/bloc/auth_state.dart';
 import 'package:lacquer/features/auth/data/auth_repository.dart';
-import 'package:lacquer/features/auth/result_type.dart';
+import 'package:lacquer/features/result_type.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

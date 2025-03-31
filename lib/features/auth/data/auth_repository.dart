@@ -4,7 +4,7 @@ import 'package:lacquer/features/auth/dtos/forget_dto.dart';
 import 'package:lacquer/features/auth/dtos/login_dto.dart';
 import 'package:lacquer/features/auth/dtos/register_dto.dart';
 
-import 'package:lacquer/features/auth/result_type.dart';
+import 'package:lacquer/features/result_type.dart';
 
 class AuthRepository {
   final AuthApiClient authApiClient;
