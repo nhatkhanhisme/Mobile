@@ -25,3 +25,9 @@ class AuthEventRegister extends AuthEvent {
 class AuthAuthenticateStarted extends AuthEvent {}
 
 class AuthEventLogout extends AuthEvent {}
+
+class AuthEventSendMailVerify extends AuthEvent {
+  AuthEventSendMailVerify({required this.email});
+
+  final String email;
+}

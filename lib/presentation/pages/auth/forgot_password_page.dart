@@ -5,14 +5,14 @@ import 'package:lacquer/config/router.dart';
 import 'package:lacquer/config/theme.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({super.key});
+  //----------------------------- VARIABLES -----------------------------
+  ForgotPasswordPage({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final FocusNode focusNodeEmail = FocusNode();
 
+  //----------------------------- INIT -----------------------------
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-    final FocusNode focusNodeEmail = FocusNode();
-    
-
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -125,10 +125,10 @@ class ForgotPasswordPage extends StatelessWidget {
                     child: const Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10.0,
-                        horizontal: 80.0,
+                        horizontal: 70.0,
                       ),
                       child: Text(
-                        'Reset password',
+                        'Send mail verification',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17.0,
@@ -136,7 +136,9 @@ class ForgotPasswordPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _onSendVerify(context);
+                    },
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -150,7 +152,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     color: CustomTheme.lightbeige,
                   ),
                   label: const Text(
-                    'Back to log in',
+                    'Back to login',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -164,5 +166,10 @@ class ForgotPasswordPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  //----------------------------- FUNCTIONS -----------------------------
+  void _onSendVerify(BuildContext context) {
+
   }
 }

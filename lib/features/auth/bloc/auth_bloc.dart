@@ -11,6 +11,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventRegister>(_onRegister);
     on<AuthAuthenticateStarted>(_onAuthenticateStarted);
     on<AuthEventLogout>(_onLogoutStarted);
+    on<AuthEventSendMailVerify>(_onSendMailVerify);
   }
 
   final AuthRepository authRepository;
@@ -61,6 +62,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return (switch (result) {
       Success() => emit(AuthLogoutSuccess()),
       Failure() => emit(AuthLogoutFailure(result.message)),
+    });
+  }
+
+  void _onSendMailVerify(AuthEventSendMailVerify event, Emitter<AuthState> emit) async {
+    emit(AuthVerifyMailSending());
+    final result = await authRepository.forget(event.email);
+    return (switch (result) {
+      Success() => emit(AuthVerifyMailSentSuccess()),
+      Failure() => emit(AuthVerifyMailSentFailure(result.message)),
     });
   }
 }
