@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
+import 'package:lacquer/presentation/utils/card_list.dart';
 import 'package:lacquer/presentation/utils/home_item_list.dart';
 import 'package:lacquer/presentation/widgets/bottom_nav_bar.dart';
+import 'package:lacquer/presentation/widgets/category_horizontal_scroll.dart';
 import 'package:lacquer/presentation/widgets/home_item.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,17 +14,38 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomTheme.lightbeige,
-      body: Column(
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [_buildAppBar(), _buildLearnedTodayCard()],
-          ),
-          const SizedBox(height: 80),
-          Expanded(child: _buildGridView()),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [_buildAppBar(), _buildLearnedTodayCard()],
+            ),
+            const SizedBox(height: 80),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: const Text(
+                'Recently learn',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            HorizontalList(cards: cuisine),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: _buildGridView(),
+            ),
+          ],
+        ),
       ),
-      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
+      bottomNavigationBar: const BottomNavBar(
+        selectedIndex: 0,
+      ), // Giữ navbar cố định
     );
   }
 
@@ -133,24 +156,23 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildGridView() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 0.8,
-        ),
-        itemCount: homeItems.length,
-        itemBuilder: (context, index) {
-          return HomeItem(
-            imagePath: homeItems[index].imagePath,
-            title: homeItems[index].title,
-            backgroundColor: homeItems[index].backgroundColor,
-          );
-        },
+    return GridView.builder(
+      shrinkWrap: true, // Tránh lỗi chiều cao vô hạn
+      physics: const NeverScrollableScrollPhysics(), // Vô hiệu cuộn riêng
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.8,
       ),
+      itemCount: homeItems.length,
+      itemBuilder: (context, index) {
+        return HomeItem(
+          imagePath: homeItems[index].imagePath,
+          title: homeItems[index].title,
+          backgroundColor: homeItems[index].backgroundColor,
+        );
+      },
     );
   }
 }
