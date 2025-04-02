@@ -43,9 +43,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(
-        selectedIndex: 0,
-      ), // Giữ navbar cố định
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
   }
 
@@ -157,8 +155,8 @@ class HomePage extends StatelessWidget {
 
   Widget _buildGridView() {
     return GridView.builder(
-      shrinkWrap: true, // Tránh lỗi chiều cao vô hạn
-      physics: const NeverScrollableScrollPhysics(), // Vô hiệu cuộn riêng
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16,
