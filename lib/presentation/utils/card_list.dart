@@ -1,63 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:lacquer/config/theme.dart';
 
 class CustomCardModel {
-  final double width;
-  final double height;
-  final Color backgroundcolor;
-  final double borderRadius;
-  final double elevation;
+  final Color backgroundColor;
   final String title;
   final int cardCount;
+  final String imagePath;
 
   const CustomCardModel({
-    this.width = 100,
-    this.height = 100,
-    this.borderRadius = 20,
-    this.elevation = 5,
-    required this.backgroundcolor,
+    required this.backgroundColor,
     required this.title,
     required this.cardCount,
+    required this.imagePath,
   });
 }
 
 final List<CustomCardModel> cuisine = [
   CustomCardModel(
-    backgroundcolor: CustomTheme.lightbeige,
+    backgroundColor: Colors.white,
     title: "Luna New Year Cuisine",
     cardCount: 10,
+    imagePath: "assets/images/mamCom.jpg",
   ),
 
   CustomCardModel(
-    backgroundcolor: CustomTheme.lightbeige,
-    title: "Street foods",
+    backgroundColor: Colors.white,
+    title: "Breakfast",
     cardCount: 12,
+    imagePath: "assets/images/mamCom.jpg",
   ),
 
   CustomCardModel(
-    backgroundcolor: CustomTheme.lightbeige,
-    title: "Luna New Year Cuisine",
+    backgroundColor: Colors.white,
+    title: "Cakes and Pastries",
     cardCount: 15,
-  ),
-
-  CustomCardModel(
-    backgroundcolor: CustomTheme.lightbeige,
-    title: "Luna New Year Cuisine",
-    cardCount: 7,
+    imagePath: "assets/images/mamCom.jpg",
   ),
 ];
 
 final List<CustomCardModel> animal = [
   CustomCardModel(
-    backgroundcolor: CustomTheme.lightbeige,
+    backgroundColor: Colors.white,
     title: "Luna New Year Cuisine",
     cardCount: 10,
+    imagePath: "assets/images/mamCom.jpg",
   ),
 
   CustomCardModel(
-    backgroundcolor: CustomTheme.lightbeige,
+    backgroundColor: Colors.white,
     title: "Street foods",
     cardCount: 12,
+    imagePath: "assets/images/mamCom.jpg",
   ),
 ];

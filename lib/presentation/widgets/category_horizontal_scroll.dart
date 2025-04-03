@@ -10,7 +10,7 @@ class HorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 130,
+      height: 200,
       child: ListView.separated(
         padding: EdgeInsets.all(16),
         scrollDirection: Axis.horizontal,
@@ -18,9 +18,10 @@ class HorizontalList extends StatelessWidget {
         itemCount: cards.length,
         itemBuilder: (context, index) {
           return CustomCard(
-            backgroundcolor: cards[index].backgroundcolor,
+            backgroundColor: cards[index].backgroundColor,
             title: cards[index].title,
             cardCount: cards[index].cardCount,
+            imagePath: cards[index].imagePath,
           );
         },
       ),
