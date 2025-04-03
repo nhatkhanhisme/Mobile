@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lacquer/config/theme.dart';
 import 'package:lacquer/presentation/utils/card_list.dart';
 import 'package:lacquer/presentation/widgets/bottom_nav_bar.dart';
-import 'package:lacquer/presentation/widgets/category_horizontal_scroll.dart';
+import 'package:lacquer/presentation/widgets/flashcard_category.dart';
 
 class FlashcardPage extends StatelessWidget {
   const FlashcardPage({super.key});
@@ -12,33 +12,21 @@ class FlashcardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomTheme.lightbeige,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 170),
-                const SizedBox(height: 80),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: const Text(
-                    'Recently learn',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                HorizontalList(cards: cuisine),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [_buildAppBar(), _buildSearchBar()],
             ),
-          ),
-          _buildAppBar(),
-          _buildSearchBar(),
-        ],
+            const SizedBox(height: 80),
+            FlashcardCategory(title: "Traditional Cuisine", cards: cuisine),
+            FlashcardCategory(title: "Festivals", cards: cuisine),
+            FlashcardCategory(title: "Landscape", cards: cuisine),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
       bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
@@ -64,7 +52,7 @@ class FlashcardPage extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  'Flash Card',
+                  'Flashcards',
                   style: const TextStyle(
                     fontSize: 24,
                     color: Colors.white,

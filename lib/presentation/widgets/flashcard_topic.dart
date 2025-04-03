@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class CustomCard extends StatefulWidget {
+class FlashcardTopic extends StatefulWidget {
   final Color backgroundColor;
   final String title;
   final int cardCount;
   final String imagePath;
 
-  const CustomCard({
+  const FlashcardTopic({
     super.key,
     required this.backgroundColor,
     required this.title,
@@ -16,10 +16,10 @@ class CustomCard extends StatefulWidget {
   });
 
   @override
-  CustomCardState createState() => CustomCardState();
+  FlashcardTopicState createState() => FlashcardTopicState();
 }
 
-class CustomCardState extends State<CustomCard> {
+class FlashcardTopicState extends State<FlashcardTopic> {
   bool _isPressed = false;
 
   @override
@@ -48,7 +48,6 @@ class CustomCardState extends State<CustomCard> {
             child: Row(
               children: [
                 const SizedBox(width: 12),
-                // 📌 **Thông tin bên trái**
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +74,7 @@ class CustomCardState extends State<CustomCard> {
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: const Color.fromRGBO(0, 0, 0, 0.1),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 ),
@@ -116,18 +115,15 @@ class CustomCardState extends State<CustomCard> {
                       return const LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [
-                          Colors.transparent, // Mờ dần từ bên trái
-                          Colors.white, // Hiển thị bình thường bên phải
-                        ],
-                        stops: [0.0, 0.3], // Điều chỉnh điểm mờ dần
+                        colors: [Colors.transparent, Colors.white],
+                        stops: [0.0, 0.3],
                       ).createShader(bounds);
                     },
                     blendMode: BlendMode.dstIn,
                     child: Image.asset(
                       widget.imagePath,
                       width: 190,
-                      height: 170,
+                      height: 180,
                       fit: BoxFit.cover,
                     ),
                   ),

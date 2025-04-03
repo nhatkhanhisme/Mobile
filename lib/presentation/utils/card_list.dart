@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CustomCardModel {
+class FlashcardTopicModel {
   final Color backgroundColor;
   final String title;
   final int cardCount;
   final String imagePath;
 
-  const CustomCardModel({
+  const FlashcardTopicModel({
     required this.backgroundColor,
     required this.title,
     required this.cardCount,
@@ -14,22 +14,22 @@ class CustomCardModel {
   });
 }
 
-final List<CustomCardModel> cuisine = [
-  CustomCardModel(
+final List<FlashcardTopicModel> cuisine = [
+  FlashcardTopicModel(
     backgroundColor: Colors.white,
     title: "Luna New Year Cuisine",
     cardCount: 10,
     imagePath: "assets/images/mamCom.jpg",
   ),
 
-  CustomCardModel(
+  FlashcardTopicModel(
     backgroundColor: Colors.white,
     title: "Breakfast",
     cardCount: 12,
     imagePath: "assets/images/mamCom.jpg",
   ),
 
-  CustomCardModel(
+  FlashcardTopicModel(
     backgroundColor: Colors.white,
     title: "Cakes and Pastries",
     cardCount: 15,
@@ -37,15 +37,15 @@ final List<CustomCardModel> cuisine = [
   ),
 ];
 
-final List<CustomCardModel> animal = [
-  CustomCardModel(
+final List<FlashcardTopicModel> animal = [
+  FlashcardTopicModel(
     backgroundColor: Colors.white,
     title: "Luna New Year Cuisine",
     cardCount: 10,
     imagePath: "assets/images/mamCom.jpg",
   ),
 
-  CustomCardModel(
+  FlashcardTopicModel(
     backgroundColor: Colors.white,
     title: "Street foods",
     cardCount: 12,
