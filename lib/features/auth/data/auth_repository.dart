@@ -1,9 +1,10 @@
+import 'package:flutter/widgets.dart';
 import 'package:lacquer/features/auth/data/auth_api_client.dart';
 import 'package:lacquer/features/auth/data/auth_local_data_source.dart';
 import 'package:lacquer/features/auth/dtos/forget_dto.dart';
 import 'package:lacquer/features/auth/dtos/login_dto.dart';
 import 'package:lacquer/features/auth/dtos/register_dto.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lacquer/features/result_type.dart';
 
 class AuthRepository {
@@ -67,6 +68,37 @@ class AuthRepository {
         ForgetDto(email: email),
       );
       return Success(null);
+    } catch (e) {
+      return Failure(e.toString());
+    }
+  }
+
+  Future<Result<String?>> googleSignIn() async {
+    try {
+      debugPrint('Start Google Sign In');
+      final GoogleSignInAccount? account = await GoogleSignIn(
+        scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+        ).signIn();
+      if (account == null) {
+        debugPrint('Account null');
+        return Success(null);
+      }
+
+      final GoogleSignInAuthentication auth = await account.authentication;
+      if (auth.idToken != null) {
+        debugPrint('ID Token: ${auth.idToken}');
+        final idToken = auth.idToken;
+        final loginSuccessDto = await authApiClient.googleSignIn(idToken!);
+        await authLocalDataSource.saveToken(loginSuccessDto.data.token);
+        debugPrint('SuccessToken: ${loginSuccessDto.data.token}');
+        return Success(idToken);
+      } else {
+        debugPrint('ID Token null');
+        return Success(null);
+      }
     } catch (e) {
       return Failure(e.toString());
     }

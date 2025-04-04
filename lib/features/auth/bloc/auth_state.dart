@@ -55,3 +55,6 @@ class AuthRegisterFailure  extends AuthState {
   
     AuthVerifyMailSentFailure(this.message);
   }
+
+  //GOOGLE SIGN IN
+  class AuthGoogleSignInInProgress extends AuthState {}

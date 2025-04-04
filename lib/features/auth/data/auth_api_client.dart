@@ -65,4 +65,22 @@ class AuthApiClient {
       }
     }
   }
+
+  Future<LoginSuccessDto> googleSignIn(String idToken) async {
+    try {
+      final response = await dio.post(
+        'auth/google',
+        data: {
+          'idToken': idToken,
+        },
+      );
+      return LoginSuccessDto.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response!.data['message']);
+      } else {
+        throw Exception(e.message);
+      }
+    }
+  }
 }

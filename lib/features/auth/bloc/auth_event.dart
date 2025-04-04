@@ -31,3 +31,5 @@ class AuthEventSendMailVerify extends AuthEvent {
 
   final String email;
 }
+
+class AuthEventGoogleSignIn extends AuthEvent {}

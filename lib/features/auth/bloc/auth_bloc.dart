@@ -12,6 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthAuthenticateStarted>(_onAuthenticateStarted);
     on<AuthEventLogout>(_onLogoutStarted);
     on<AuthEventSendMailVerify>(_onSendMailVerify);
+    on<AuthEventGoogleSignIn>(_onGoogleSignIn);
   }
 
   final AuthRepository authRepository;
@@ -71,6 +72,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return (switch (result) {
       Success() => emit(AuthVerifyMailSentSuccess()),
       Failure() => emit(AuthVerifyMailSentFailure(result.message)),
+    });
+  }
+
+  void _onGoogleSignIn(
+    AuthEventGoogleSignIn event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthGoogleSignInInProgress());
+    final result = await authRepository.googleSignIn();
+    return (switch (result) {
+      Success(data: final token) when token != null => emit(
+        AuthLoginSuccess(),
+      ),
+      Success() => emit(AuthAuthenticatedUnknown()),
+      Failure() => emit(AuthLoginFailure(result.message)),
     });
   }
 }

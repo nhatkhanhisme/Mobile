@@ -293,9 +293,9 @@ class SignInState extends State<SignIn> {
 
   Widget _buildGoogleButton() {
     return GestureDetector(
-      onTap: _onGoogleButtonTapUp,
+      onTap: () => _onGoogleButtonTapUp(context),
       onTapDown: (_) => _onGoogleButtonTapDown(),
-      onTapCancel: () => _onGoogleButtonTapUp(),
+      onTapCancel: () => _onGoogleButtonTapUp(context),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 1000),
         padding: const EdgeInsets.only(
@@ -375,11 +375,14 @@ class SignInState extends State<SignIn> {
     });
   }
 
-  void _onGoogleButtonTapUp() {
+  void _onGoogleButtonTapUp(BuildContext context) {
     setState(() {
       _googleButtonColor = Colors.white;
     });
     CustomSnackBar(context, const Text('Google button pressed'));
+    context.read<AuthBloc>().add(
+      AuthEventGoogleSignIn(),
+    );
   }
 
   void _toggleSignInButton(BuildContext context) {
