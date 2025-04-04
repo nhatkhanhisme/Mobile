@@ -4,7 +4,7 @@ import 'package:lacquer/config/theme.dart';
 import 'package:lacquer/presentation/utils/card_list.dart';
 import 'package:lacquer/presentation/utils/home_item_list.dart';
 import 'package:lacquer/presentation/widgets/bottom_nav_bar.dart';
-import 'package:lacquer/presentation/widgets/category_horizontal_scroll.dart';
+import 'package:lacquer/presentation/widgets/flashcard_category.dart';
 import 'package:lacquer/presentation/widgets/home_item.dart';
 
 class HomePage extends StatelessWidget {
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
             ),
-            HorizontalList(cards: cuisine),
+            FlashcardCategory(title: "Cuisine", cards: cuisine),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: _buildGridView(),
@@ -43,9 +43,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(
-        selectedIndex: 0,
-      ), // Giữ navbar cố định
+      bottomNavigationBar: const BottomNavBar(selectedIndex: 0),
     );
   }
 
@@ -157,8 +155,8 @@ class HomePage extends StatelessWidget {
 
   Widget _buildGridView() {
     return GridView.builder(
-      shrinkWrap: true, // Tránh lỗi chiều cao vô hạn
-      physics: const NeverScrollableScrollPhysics(), // Vô hiệu cuộn riêng
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16,

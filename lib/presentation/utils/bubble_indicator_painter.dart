@@ -5,10 +5,10 @@ import 'package:lacquer/config/theme.dart';
 
 class BubbleIndicatorPainter extends CustomPainter {
   BubbleIndicatorPainter({
-    this.dxTarget = 125.0,
-    this.dxEntry = 25.0,
-    this.radius = 21.0,
-    this.dy = 25.0,
+    this.dxTarget = 120.0,
+    this.dxEntry = 30.0,
+    this.radius = 24.0,
+    this.dy = 30.0,
     required this.pageController,
   }) : painter =
            Paint()

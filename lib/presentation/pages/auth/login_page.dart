@@ -112,7 +112,7 @@ class LoginPageState extends State<LoginPage>
   Widget _buildMenuBar(BuildContext context) {
     return Container(
       width: 300.0,
-      height: 50.0,
+      height: 60.0,
       decoration: const BoxDecoration(
         color: Color(0x552B2B2B),
         borderRadius: BorderRadius.all(Radius.circular(25.0)),

@@ -198,7 +198,7 @@ class SignInState extends State<SignIn> {
                 child: const Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: 10.0,
-                    horizontal: 42.0,
+                    horizontal: 36.0,
                   ),
                   child: Text(
                     'SIGN IN',
@@ -306,7 +306,7 @@ class SignInState extends State<SignIn> {
         ),
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(5),
           color: _googleButtonColor,
         ),
         child: Row(
